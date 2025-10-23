@@ -2,7 +2,6 @@ package com.example
 
 import pt.isel.canvas.*
 import kotlin.collections.mapIndexed
-import kotlin.system.exitProcess
 
 const val BOARD_SIZE = 700;
 const val COLS_PER_ROW = 3;
