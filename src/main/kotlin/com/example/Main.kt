@@ -121,7 +121,7 @@ fun main() {
         }
 
         arena.onKeyPressed { keyEvent ->
-            if (keyEvent.char == 'r') {
+            if (keyEvent.char.lowercaseChar() == 'r') {
                 game = List(9) {
                     '_'
                 }
