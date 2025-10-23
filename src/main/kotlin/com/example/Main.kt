@@ -2,6 +2,7 @@ package com.example
 
 import pt.isel.canvas.*
 import kotlin.collections.mapIndexed
+import kotlin.system.exitProcess
 
 const val BOARD_SIZE = 700;
 const val COLS_PER_ROW = 3;
@@ -117,6 +118,17 @@ fun main() {
                 drawGame(game, arena)
                 drawIcon(me.x, me.y, currentPlayer, arena)
             }
+        }
+
+        arena.onKeyPressed { keyEvent ->
+            if (keyEvent.char == 'r') {
+                game = List(9) {
+                    '_'
+                }
+                currentPlayer = 'X'
+                drawGame(game, arena)
+            }
+
         }
     }
     onFinish {
