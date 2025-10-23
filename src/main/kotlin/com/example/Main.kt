@@ -3,7 +3,7 @@ package com.example
 import pt.isel.canvas.*
 import kotlin.collections.mapIndexed
 
-const val BOARD_SIZE = 500;
+const val BOARD_SIZE = 700;
 const val COLS_PER_ROW = 3;
 const val CELL_SIZE = BOARD_SIZE / COLS_PER_ROW;
 
@@ -14,12 +14,10 @@ fun grid(canvas: Canvas) {
     canvas.drawLine(0, CELL_SIZE*2, canvas.width, CELL_SIZE*2)
 }
 
-fun getCell(x: Int, y: Int, canvas: Canvas): Int {
-    val w_s = canvas.width/3
-    val h_s = canvas.height/3
+fun getCell(x: Int, y: Int): Int {
 
-    val pos_x = if (x < w_s) 0 else if (x < w_s*2) 1 else 2
-    val pos_y = if (y < h_s) 0 else if (y < h_s*2) 1 else 2
+    val pos_x = if (x < CELL_SIZE) 0 else if (x < CELL_SIZE*2) 1 else 2
+    val pos_y = if (y < CELL_SIZE) 0 else if (y < CELL_SIZE*2) 1 else 2
 
     return pos_x + pos_y * 3
 }
@@ -30,10 +28,10 @@ fun registerGameMove(game: List<Char>, indice: Int, player: Char) : List<Char> {
 
 fun drawIcon(x: Int, y: Int, player: Char, canvas: Canvas) {
     if (player == 'O') {
-        canvas.drawCircle( x, y, 50, RED, 10)
+        canvas.drawCircle( x, y, BOARD_SIZE/10, RED, 10)
     }
     if (player == 'X') {
-        val translation = (canvas.width/3/3);
+        val translation = (CELL_SIZE/3);
         canvas.drawLine(x-translation, y-translation, x+translation , y + translation, GREEN, 10)
         canvas.drawLine(x-translation, y+translation, x+translation , y - translation, GREEN, 10)
 
@@ -45,15 +43,15 @@ fun draw(game: List<Char>, canvas: Canvas) {
         for (x in 0..2) {
             val i = x + y * 3
 
-            val x = x * (canvas.width/3) + (canvas.width/3/2)
-            val y = y * (canvas.height/3) + (canvas.height/3/2)
+            val x = x * CELL_SIZE + (CELL_SIZE/2)
+            val y = y * CELL_SIZE + (CELL_SIZE/2)
 
             drawIcon(x, y, game[i], canvas)
         }
     }
 }
 
-fun drawGame(game: List<Char>, player: Char, canvas: Canvas) {
+fun drawGame(game: List<Char>, canvas: Canvas) {
     canvas.erase()
     draw(game, canvas)
     grid(canvas)
@@ -95,13 +93,13 @@ fun main() {
         grid(arena)
 
         arena.onMouseDown { me ->
-            val i = getCell(me.x, me.y, arena)
+            val i = getCell(me.x, me.y)
 
             if (anyWon(game)) return@onMouseDown
             if (!validPosition(game, i)) return@onMouseDown
 
             game = registerGameMove(game, i, currentPlayer)
-            drawGame(game, currentPlayer, arena)
+            drawGame(game, arena)
 
             if (anyWon(game)) {
                 arena.drawText(arena.width/4, arena.height/2, "$currentPlayer won the game!", BLACK)
@@ -116,7 +114,7 @@ fun main() {
 
         arena.onMouseMove { me ->
             if (!isBoardFull(game) and !anyWon(game)) {
-                drawGame(game, currentPlayer, arena)
+                drawGame(game, arena)
                 drawIcon(me.x, me.y, currentPlayer, arena)
             }
         }
