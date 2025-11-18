@@ -30,3 +30,13 @@ fun Cell.Companion.getCell(x: Int, y: Int) : Cell {
 fun Cell.Companion.getCoordinateCenter(cell: Cell) : Pair<Int, Int> {
     return Pair(cell.col * CELL_SIZE + CELL_SIZE / 2, cell.row * CELL_SIZE + CELL_SIZE / 2)
 }
+
+fun Cell.Companion.getCoordinate(cell: Cell) : Pair<Int, Int> {
+    return Pair(cell.col * CELL_SIZE, cell.row * CELL_SIZE)
+}
+
+
+enum class Direction {
+    UP, DOWN, LEFT, RIGHT,
+    DIAGONAL_DL, DIAGONAL_UL, DIAGONAL_DR, DIAGONAL_UR;
+}
