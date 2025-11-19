@@ -14,11 +14,19 @@ fun Game.animate() {
     hero.nextAnimation()
 }
 
+fun Game.getDir(char: Char) : Direction? {
+    return when (char) {
+        'w' -> Direction.UP
+        'a' -> Direction.LEFT
+        's' -> Direction.DOWN
+        'd' -> Direction.RIGHT
+        else -> null
+    }
+}
+
 fun Game.onInput(code: KeyEvent) {
-    when (code.char) {
-        'w' -> hero.currentDirection = Direction.UP
-        'a' -> hero.currentDirection = Direction.LEFT
-        's' -> hero.currentDirection = Direction.DOWN
-        'd' -> hero.currentDirection = Direction.RIGHT
+    val dir = getDir(code.char)
+    if (dir != null) {
+        hero.move(dir)
     }
 }

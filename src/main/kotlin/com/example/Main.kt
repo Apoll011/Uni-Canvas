@@ -14,7 +14,7 @@ fun main() {
         canvas.onTimeProgress(10) {
             game.draw(canvas)
         }
-a
+
         canvas.onTimeProgress(100) {
             game.animate()
         }
