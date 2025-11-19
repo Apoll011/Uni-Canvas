@@ -6,7 +6,7 @@ const val CELL_SIZE = 128
 const val GRID_WIDTH = 5
 const val GRID_HEIGHT = 3
 
-class Cell(val col:Int, val row:Int) {
+class Cell(val x:Int, val y:Int) {
     companion object
 }
 
@@ -16,8 +16,8 @@ class Cell(val col:Int, val row:Int) {
  */
 fun Cell.Companion.getCell(x: Int, y: Int) : Cell {
     return Cell(
-        col = floor((x / CELL_SIZE).toDouble()).toInt(),
-        row = floor((y / CELL_SIZE).toDouble()).toInt()
+        x = floor((x / CELL_SIZE).toDouble()).toInt(),
+        y = floor((y / CELL_SIZE).toDouble()).toInt()
     )
 }
 
@@ -26,20 +26,35 @@ fun Cell.Companion.getCell(x: Int, y: Int) : Cell {
  * @receiver The Cell.
  */
 fun Cell.getCoordinateCenter() : Pair<Int, Int> {
-    return Pair(col * CELL_SIZE + CELL_SIZE / 2, row * CELL_SIZE + CELL_SIZE / 2)
+    return Pair(x * CELL_SIZE + CELL_SIZE / 2, y * CELL_SIZE + CELL_SIZE / 2)
 }
 
 fun Cell.getCoordinate() : Pair<Int, Int> {
-    return Pair(col * CELL_SIZE, row * CELL_SIZE)
+    return Pair(x * CELL_SIZE, y * CELL_SIZE)
 }
 
 fun Cell.canMove(forbidden: List<Cell>?) : Boolean {
     forbidden?.forEach { t -> if(t.equalsCell(this)) return false }
-    return row in 0 until GRID_HEIGHT && col in 0 until GRID_WIDTH
+    return y in 0 until GRID_HEIGHT && x in 0 until GRID_WIDTH
 }
 
 fun Cell.equalsCell(other: Cell) : Boolean {
-    return this.row == other.row && this.col == other.col
+    return this.y == other.y && this.x == other.x
+}
+
+
+fun Cell.nextCell(d: Direction): Cell {
+    return when(d) {
+        Direction.UP    -> Cell(x, y - 1)
+        Direction.DOWN  -> Cell(x, y + 1)
+        Direction.LEFT  -> Cell(x - 1, y)
+        Direction.RIGHT -> Cell(x + 1, y)
+
+        Direction.DIAGONAL_DL -> Cell(x - 1, y - 1)
+        Direction.DIAGONAL_UL -> Cell(x + 1, y - 1)
+        Direction.DIAGONAL_DR -> Cell(x - 1, y + 1)
+        Direction.DIAGONAL_UR -> Cell(x + 1, y + 1)
+    }
 }
 
 enum class Direction {

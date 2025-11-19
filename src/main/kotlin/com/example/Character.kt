@@ -48,7 +48,7 @@ fun Character.move(direction: Direction, forbidden: List<Cell>) {
         Direction.DIAGONAL_DR -> 1 to 1
     }
 
-    val newPosition = Cell(position.col + newPositionMatrix.first, position.row + newPositionMatrix.second)
+    val newPosition = Cell(position.x + newPositionMatrix.first, position.y + newPositionMatrix.second)
 
     if (!newPosition.canMove(forbidden)) return
 

@@ -19,8 +19,8 @@ fun main() {
             game.animate()
         }
 
-        canvas.onTimeProgress(10000) {
-            game.spawnBot()
+        canvas.onTimeProgress(1000) {
+            game.runEngine()
         }
 
         canvas.onKeyPressed { code ->

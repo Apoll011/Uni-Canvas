@@ -2,8 +2,15 @@ package com.example
 
 import pt.isel.canvas.*
 
-class Game (val arena: Arena, val hero: Character, var obstacles: List<Cell>) {
+class Game (val arena: Arena, val hero: Character, var obstacles: List<Cell>, enemiesNumber: Int = 4) {
     var bots: List<Character> = listOf()
+    var aiEngine: AIEngine = AIEngine(arena)
+
+    init {
+        for (i in 1..enemiesNumber) {
+            spawnBot()
+        }
+    }
 }
 
 fun Game.getForbiddenCells() : List<Cell> {
@@ -47,6 +54,12 @@ fun Game.animate() {
     for (bot in bots) {
         bot.nextAnimation()
     }
+}
+
+fun Game.runEngine() {
+    val prevision = aiEngine.computeNextState(this)
+    bots = prevision.first
+    obstacles = prevision.second
 }
 
 fun Game.onInput(code: KeyEvent) {
