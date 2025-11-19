@@ -8,10 +8,12 @@ class Character (val sourceImg : String, val frameSize: Int, val numberOfFrames:
     lateinit var position: Cell
     var currentFrame: Int = 0
     var currentDirection: Direction = Direction.DOWN
+    var timeSinceLastMoved = 0
 }
 
 fun Character.nextAnimation() {
-    currentFrame = (currentFrame + 1) % numberOfFrames
+    currentFrame = if (timeSinceLastMoved < 6)(currentFrame + 1) % numberOfFrames else 1
+    timeSinceLastMoved++
 }
 
 fun Character.getAnimation(): String {
@@ -54,6 +56,7 @@ fun Character.move(direction: Direction, forbidden: List<Cell>) {
     if (!newPosition.canMove(forbidden)) return
 
     position = newPosition
+    timeSinceLastMoved = 0
 }
 
 fun Character.draw(canvas: Canvas) {
