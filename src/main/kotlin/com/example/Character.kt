@@ -4,17 +4,17 @@ import pt.isel.canvas.*
 
 
 
-class Hero () {
+class Character (val sourceImg : String) {
     var position: Cell = Cell.getCell(GRID_WIDTH * CELL_SIZE / 2, GRID_HEIGHT * CELL_SIZE / 2)
     var currentFrame: Int = 0
     var currentDirection: Direction = Direction.DOWN
 }
 
-fun Hero.nextAnimation() {
+fun Character.nextAnimation() {
     currentFrame = (currentFrame + 1) % 3
 }
 
-fun Hero.getAnimation(): String {
+fun Character.getAnimation(): String {
     val frameSize = 48
 
     val (baseColumn, row) = when (currentDirection) {
@@ -34,10 +34,10 @@ fun Hero.getAnimation(): String {
     val pixelX = column * frameSize
     val pixelY = row * frameSize
 
-    return "hero|$pixelX,$pixelY,48,48"
+    return "$sourceImg|$pixelX,$pixelY,48,48"
 }
 
-fun Hero.move(direction: Direction) {
+fun Character.move(direction: Direction) {
     val newPositionMatrix = when (direction) {
         Direction.DOWN        -> 0 to 1
         Direction.LEFT        -> -1 to 0
@@ -58,7 +58,7 @@ fun Hero.move(direction: Direction) {
     position = newPosition
 }
 
-fun Hero.draw(canvas: Canvas) {
+fun Character.draw(canvas: Canvas) {
     val pos = Cell.getCoordinate(position)
     canvas.drawImage(getAnimation(), pos.first, pos.second, CELL_SIZE, CELL_SIZE)
 }

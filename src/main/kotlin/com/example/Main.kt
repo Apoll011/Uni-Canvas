@@ -7,7 +7,7 @@ fun main() {
         val canvas = Canvas(GRID_WIDTH * CELL_SIZE, GRID_HEIGHT * CELL_SIZE, WHITE)
 
         val arena = Arena(GRID_WIDTH, GRID_HEIGHT, CELL_SIZE)
-        val hero = Hero()
+        val hero = Character("hero")
 
         val game = Game(arena, hero)
 

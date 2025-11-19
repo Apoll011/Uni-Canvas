@@ -2,7 +2,7 @@ package com.example
 
 import pt.isel.canvas.*
 
-class Game (val arena: Arena, val hero: Hero)
+class Game (val arena: Arena, val hero: Character)
 
 fun Game.draw(canvas: Canvas) {
     canvas.erase()
