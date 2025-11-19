@@ -14,7 +14,6 @@ class Game (val config: GameConfig) {
 
     init {
         hero.position = Cell.getCell(GRID_WIDTH * CELL_SIZE / 2, GRID_HEIGHT * CELL_SIZE / 2)
-        bots.forEach { it.position = getRandomAvailableCell() }
 
         repeat (enemiesNumber) {
             spawnBot()
@@ -54,7 +53,9 @@ fun Game.getRandomAvailableCell(): Cell {
 }
 
 fun Game.spawnBot() {
-    bots = bots + config.bot
+    val newBot = config.bot.copy()
+    newBot.position = getRandomAvailableCell()
+    bots = bots + newBot
 }
 
 fun Game.draw(canvas: Canvas) {

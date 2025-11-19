@@ -4,7 +4,7 @@ import pt.isel.canvas.*
 
 
 
-class Character (val sourceImg : String, val frameSize: Int, val numberOfFrames: Int) {
+class Character (val sourceImg : String, val frameSize: Int, val numberOfFrames: Int, val size: Int, val placementOffset: Pair<Int, Int> = 0 to 0) {
     lateinit var position: Cell
     var currentFrame: Int = 0
     var currentDirection: Direction = Direction.DOWN
@@ -58,5 +58,9 @@ fun Character.move(direction: Direction, forbidden: List<Cell>) {
 
 fun Character.draw(canvas: Canvas) {
     val pos = position.getCoordinate()
-    canvas.drawImage(getAnimation(), pos.first, pos.second, CELL_SIZE, CELL_SIZE)
+    canvas.drawImage(getAnimation(), pos.first + placementOffset.first, pos.second + placementOffset.second, size, size)
+}
+
+fun Character.copy(): Character {
+    return Character(sourceImg, frameSize, numberOfFrames, size, placementOffset)
 }
