@@ -25,10 +25,6 @@ fun Cell.Companion.getCell(x: Int, y: Int) : Cell {
  * Get the Coordinates given the Cell.
  * @receiver The Cell.
  */
-fun Cell.getCoordinateCenter() : Pair<Int, Int> {
-    return Pair(x * CELL_SIZE + CELL_SIZE / 2, y * CELL_SIZE + CELL_SIZE / 2)
-}
-
 fun Cell.getCoordinate() : Pair<Int, Int> {
     return Pair(x * CELL_SIZE, y * CELL_SIZE)
 }

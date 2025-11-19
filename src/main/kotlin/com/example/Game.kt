@@ -7,7 +7,7 @@ class Game (val arena: Arena, val hero: Character, var obstacles: List<Cell>, en
     var aiEngine: AIEngine = AIEngine(arena)
 
     init {
-        for (i in 1..enemiesNumber) {
+        repeat (enemiesNumber) {
             spawnBot()
         }
     }
