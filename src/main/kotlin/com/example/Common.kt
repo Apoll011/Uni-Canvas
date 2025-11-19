@@ -53,6 +53,13 @@ fun Cell.nextCell(d: Direction): Cell {
     }
 }
 
+fun Cell.distance(b: Cell): Int {
+    val dx = x - b.x
+    val dy = y - b.y
+    return kotlin.math.sqrt((dx*dx + dy*dy).toDouble()).toInt()
+}
+
+
 enum class Direction {
     UP, DOWN, LEFT, RIGHT,
     DIAGONAL_DL, DIAGONAL_UL, DIAGONAL_DR, DIAGONAL_UR;
