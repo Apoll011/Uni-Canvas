@@ -46,9 +46,9 @@ fun Hero.move(direction: Direction) {
         Direction.UP          -> 0 to -1
 
         Direction.DIAGONAL_DL -> -1 to 1
-        Direction.DIAGONAL_UL -> 1 to 1
+        Direction.DIAGONAL_UL -> -1 to -1
         Direction.DIAGONAL_UR -> 1 to -1
-        Direction.DIAGONAL_DR -> -1 to -1
+        Direction.DIAGONAL_DR -> 1 to 1
     }
 
     val newPosition = Cell(position.col + newPositionMatrix.first, position.row + newPositionMatrix.second)
