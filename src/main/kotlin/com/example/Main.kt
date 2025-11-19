@@ -7,7 +7,7 @@ fun main() {
         val canvas = Canvas(GRID_WIDTH * CELL_SIZE, GRID_HEIGHT * CELL_SIZE, WHITE)
 
         val arena = Arena(GRID_WIDTH, GRID_HEIGHT, CELL_SIZE)
-        val hero = Character("hero")
+        val hero = Character("hero", Cell.getCell(GRID_WIDTH * CELL_SIZE / 2, GRID_HEIGHT * CELL_SIZE / 2), 48, 3)
 
         val game = Game(arena, hero, listOf(Cell(0, 1)))
 
@@ -17,6 +17,10 @@ fun main() {
 
         canvas.onTimeProgress(100) {
             game.animate()
+        }
+
+        canvas.onTimeProgress(10000) {
+            game.spawnBot()
         }
 
         canvas.onKeyPressed { code ->

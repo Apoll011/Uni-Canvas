@@ -34,8 +34,12 @@ fun Cell.getCoordinate() : Pair<Int, Int> {
 }
 
 fun Cell.canMove(forbidden: List<Cell>?) : Boolean {
-    forbidden?.forEach { t -> if(t.row == row && t.col == col) return false }
+    forbidden?.forEach { t -> if(t.equalsCell(this)) return false }
     return row in 0 until GRID_HEIGHT && col in 0 until GRID_WIDTH
+}
+
+fun Cell.equalsCell(other: Cell) : Boolean {
+    return this.row == other.row && this.col == other.col
 }
 
 enum class Direction {

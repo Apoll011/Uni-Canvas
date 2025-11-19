@@ -4,19 +4,16 @@ import pt.isel.canvas.*
 
 
 
-class Character (val sourceImg : String) {
-    var position: Cell = Cell.getCell(GRID_WIDTH * CELL_SIZE / 2, GRID_HEIGHT * CELL_SIZE / 2)
+class Character (val sourceImg : String, var position: Cell, val frameSize: Int, val numberOfFrames: Int) {
     var currentFrame: Int = 0
     var currentDirection: Direction = Direction.DOWN
 }
 
 fun Character.nextAnimation() {
-    currentFrame = (currentFrame + 1) % 3
+    currentFrame = (currentFrame + 1) % numberOfFrames
 }
 
 fun Character.getAnimation(): String {
-    val frameSize = 48
-
     val (baseColumn, row) = when (currentDirection) {
         Direction.DOWN        -> 0 to 0
         Direction.LEFT        -> 0 to 1
@@ -34,7 +31,7 @@ fun Character.getAnimation(): String {
     val pixelX = column * frameSize
     val pixelY = row * frameSize
 
-    return "$sourceImg|$pixelX,$pixelY,48,48"
+    return "$sourceImg|$pixelX,$pixelY,$frameSize,$frameSize"
 }
 
 fun Character.move(direction: Direction, forbidden: List<Cell>) {
