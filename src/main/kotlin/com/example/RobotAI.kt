@@ -46,7 +46,7 @@ class AIEngine(
         val dx = goal.x - start.x
         val dy = goal.y - start.y
 
-        val preferred = mutableListOf<Direction>()
+        val preferred: MutableList<Direction> = mutableListOf()
 
         if (abs(dx) > abs(dy)) {
             preferred += if (dx > 0) Direction.RIGHT else Direction.LEFT
