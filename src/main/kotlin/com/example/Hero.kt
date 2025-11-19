@@ -15,7 +15,6 @@ fun Hero.nextAnimation() {
 }
 
 fun Hero.getAnimation(): String {
-    val frame = currentFrame
     val frameSize = 48
 
     val (baseColumn, row) = when (currentDirection) {
@@ -30,7 +29,7 @@ fun Hero.getAnimation(): String {
         Direction.DIAGONAL_UR -> 3 to 3
     }
 
-    val column = baseColumn + frame
+    val column = baseColumn + currentFrame
 
     val pixelX = column * frameSize
     val pixelY = row * frameSize

@@ -10,8 +10,6 @@ class Cell(val col:Int, val row:Int) {
     companion object
 }
 
-enum class Dir { LEFT, RIGHT, UP, DOWN }
-
 /**
  * Get the Cell given the coordinates.
  * @receiver The X and Y coordinates.
@@ -42,4 +40,19 @@ fun Cell.canMove() : Boolean {
 enum class Direction {
     UP, DOWN, LEFT, RIGHT,
     DIAGONAL_DL, DIAGONAL_UL, DIAGONAL_DR, DIAGONAL_UR;
+}
+
+fun getDir(char: Char) : Direction? {
+    return when (char) {
+        'w' -> Direction.UP
+        'a' -> Direction.LEFT
+        's' -> Direction.DOWN
+        'd' -> Direction.RIGHT
+
+        'q' -> Direction.DIAGONAL_UL
+        'e' -> Direction.DIAGONAL_UR
+        'c' -> Direction.DIAGONAL_DR
+        'z' -> Direction.DIAGONAL_DL
+        else -> null
+    }
 }
