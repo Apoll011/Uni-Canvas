@@ -6,20 +6,30 @@ fun main() {
     onStart {
         val canvas = Canvas(GRID_WIDTH * CELL_SIZE, GRID_HEIGHT * CELL_SIZE, WHITE)
 
-        val arena = Arena(GRID_WIDTH, GRID_HEIGHT, CELL_SIZE)
-        val hero = Character("hero", Cell.getCell(GRID_WIDTH * CELL_SIZE / 2, GRID_HEIGHT * CELL_SIZE / 2), 48, 3)
+        val config = GameConfig(
+            Character("hero", 48, 3),
+            Character("robot", 64, 4),
+            GRID_HEIGHT,
+            GRID_WIDTH,
+            CELL_SIZE,
+            true,
+            10,
+            100,
+            1000,
+            "garbage"
+        )
 
-        val game = Game(arena, hero, listOf())
+        val game = Game(config)
 
-        canvas.onTimeProgress(10) {
+        canvas.onTimeProgress(config.drawTiming) {
             game.draw(canvas)
         }
 
-        canvas.onTimeProgress(100) {
+        canvas.onTimeProgress(config.animateTiming) {
             game.animate()
         }
 
-        canvas.onTimeProgress(1000) {
+        canvas.onTimeProgress(config.aiTiming) {
             game.runEngine()
         }
 

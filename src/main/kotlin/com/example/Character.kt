@@ -4,7 +4,8 @@ import pt.isel.canvas.*
 
 
 
-class Character (val sourceImg : String, var position: Cell, val frameSize: Int, val numberOfFrames: Int) {
+class Character (val sourceImg : String, val frameSize: Int, val numberOfFrames: Int) {
+    lateinit var position: Cell
     var currentFrame: Int = 0
     var currentDirection: Direction = Direction.DOWN
 }

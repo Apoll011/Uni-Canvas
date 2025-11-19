@@ -2,12 +2,20 @@ package com.example
 
 import pt.isel.canvas.*
 
-class Game (val arena: Arena, val hero: Character, var obstacles: List<Cell>) {
+data class GameConfig(val hero: Character, val bot: Character, val cellOnX: Int, val cellOnY: Int, val cellSize: Int, val drawGrid: Boolean, val drawTiming: Int, val animateTiming: Int, val aiTiming: Int, val garbageImage: String)
+
+class Game (val config: GameConfig) {
+    val arena: Arena = Arena(config.cellOnX, config.cellOnY, config.cellSize)
+    val hero: Character = config.hero
     var bots: List<Character> = listOf()
     var aiEngine: AIEngine = AIEngine(arena)
     var enemiesNumber: Int = (3..arena.gridsX).random()
+    var obstacles: List<Cell> = listOf()
 
     init {
+        hero.position = Cell.getCell(GRID_WIDTH * CELL_SIZE / 2, GRID_HEIGHT * CELL_SIZE / 2)
+        bots.forEach { it.position = getRandomAvailableCell() }
+
         repeat (enemiesNumber) {
             spawnBot()
         }
@@ -20,18 +28,18 @@ fun Game.getForbiddenCells() : List<Cell> {
 
 fun Game.drawTrash(canvas: Canvas, cell: Cell) {
     val pos = cell.getCoordinate()
-    canvas.drawImage("garbage", pos.first, pos.second, CELL_SIZE, CELL_SIZE)
+    canvas.drawImage(config.garbageImage, pos.first, pos.second, config.cellSize, config.cellSize)
 }
 
 fun Game.getRandomAvailableCell(): Cell {
     val forbidden = getForbiddenCells() + hero.position
-    val center = Cell(GRID_WIDTH / 2, GRID_HEIGHT / 2)
+    val center = Cell(config.cellOnX / 2, config.cellOnY / 2)
 
     var cell: Cell
     do {
         cell = Cell(
-            (0 until GRID_WIDTH).random(),
-            (0 until GRID_HEIGHT).random()
+            (0 until config.cellOnX).random(),
+            (0 until config.cellOnY).random()
         )
 
         if (!cell.canMove(forbidden)) continue
@@ -46,12 +54,14 @@ fun Game.getRandomAvailableCell(): Cell {
 }
 
 fun Game.spawnBot() {
-    bots = bots + Character("robot", getRandomAvailableCell(), 64, 4)
+    bots = bots + config.bot
 }
 
 fun Game.draw(canvas: Canvas) {
     canvas.erase()
-    arena.draw(canvas)
+    if (config.drawGrid) {
+        arena.draw(canvas)
+    }
     hero.draw(canvas)
 
     for (bot in bots) {
