@@ -37,7 +37,8 @@ fun Character.getAnimation(): String {
     return "$sourceImg|$pixelX,$pixelY,48,48"
 }
 
-fun Character.move(direction: Direction) {
+fun Character.move(direction: Direction, forbidden: List<Cell>) {
+    currentDirection = direction
     val newPositionMatrix = when (direction) {
         Direction.DOWN        -> 0 to 1
         Direction.LEFT        -> -1 to 0
@@ -52,13 +53,12 @@ fun Character.move(direction: Direction) {
 
     val newPosition = Cell(position.col + newPositionMatrix.first, position.row + newPositionMatrix.second)
 
-    if (!newPosition.canMove()) return
+    if (!newPosition.canMove(forbidden)) return
 
-    currentDirection = direction
     position = newPosition
 }
 
 fun Character.draw(canvas: Canvas) {
-    val pos = Cell.getCoordinate(position)
+    val pos = position.getCoordinate()
     canvas.drawImage(getAnimation(), pos.first, pos.second, CELL_SIZE, CELL_SIZE)
 }

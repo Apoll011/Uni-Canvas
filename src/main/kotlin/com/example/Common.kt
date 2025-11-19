@@ -25,15 +25,16 @@ fun Cell.Companion.getCell(x: Int, y: Int) : Cell {
  * Get the Coordinates given the Cell.
  * @receiver The Cell.
  */
-fun Cell.Companion.getCoordinateCenter(cell: Cell) : Pair<Int, Int> {
-    return Pair(cell.col * CELL_SIZE + CELL_SIZE / 2, cell.row * CELL_SIZE + CELL_SIZE / 2)
+fun Cell.getCoordinateCenter() : Pair<Int, Int> {
+    return Pair(col * CELL_SIZE + CELL_SIZE / 2, row * CELL_SIZE + CELL_SIZE / 2)
 }
 
-fun Cell.Companion.getCoordinate(cell: Cell) : Pair<Int, Int> {
-    return Pair(cell.col * CELL_SIZE, cell.row * CELL_SIZE)
+fun Cell.getCoordinate() : Pair<Int, Int> {
+    return Pair(col * CELL_SIZE, row * CELL_SIZE)
 }
 
-fun Cell.canMove() : Boolean {
+fun Cell.canMove(forbidden: List<Cell>?) : Boolean {
+    forbidden?.forEach { t -> if(t.row == row && t.col == col) return false }
     return row in 0 until GRID_HEIGHT && col in 0 until GRID_WIDTH
 }
 

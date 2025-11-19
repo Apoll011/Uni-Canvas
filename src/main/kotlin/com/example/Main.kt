@@ -9,7 +9,7 @@ fun main() {
         val arena = Arena(GRID_WIDTH, GRID_HEIGHT, CELL_SIZE)
         val hero = Character("hero")
 
-        val game = Game(arena, hero)
+        val game = Game(arena, hero, listOf(Cell(0, 1)))
 
         canvas.onTimeProgress(10) {
             game.draw(canvas)
