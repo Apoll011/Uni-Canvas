@@ -3,7 +3,7 @@ package com.example
 import kotlin.math.floor
 
 const val CELL_SIZE = 128
-const val GRID_WIDTH = 10
+const val GRID_WIDTH = 8
 const val GRID_HEIGHT = 6
 
 class Cell(val x:Int, val y:Int) {

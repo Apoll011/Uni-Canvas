@@ -2,7 +2,7 @@ package com.example
 
 import pt.isel.canvas.*
 
-data class GameConfig(val hero: Character, val bot: Character, val cellOnX: Int, val cellOnY: Int, val cellSize: Int, val drawGrid: Boolean, val drawTiming: Int, val animateTiming: Int, val aiTiming: Int, val garbageImage: String)
+data class GameConfig(val hero: Character, val bot: Character, val cellOnX: Int, val cellOnY: Int, val cellSize: Int, val drawGrid: Boolean, val drawTiming: Int, val animateTiming: Int, val aiTiming: Int, val garbageImage: String, val background: String)
 
 class Game (val config: GameConfig) {
     val arena: Arena = Arena(config.cellOnX, config.cellOnY, config.cellSize)
@@ -60,6 +60,7 @@ fun Game.spawnBot() {
 
 fun Game.draw(canvas: Canvas) {
     canvas.erase()
+    canvas.drawImage(config.background, 0, 0, canvas.width, canvas.height)
     if (config.drawGrid) {
         arena.draw(canvas)
     }

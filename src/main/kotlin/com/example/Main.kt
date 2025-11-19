@@ -12,11 +12,12 @@ fun main() {
             GRID_WIDTH,
             GRID_HEIGHT,
             CELL_SIZE,
-            true,
+            false,
             10,
             100,
-            1000,
-            "garbage"
+            700,
+            "garbage",
+            "background2"
         )
 
         val game = Game(config)
