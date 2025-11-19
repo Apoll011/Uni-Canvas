@@ -57,9 +57,18 @@ fun Game.animate() {
 }
 
 fun Game.runEngine() {
-    val prevision = aiEngine.computeNextState(this)
-    bots = prevision.first
-    obstacles = prevision.second
+    bots = aiEngine.computeNextState(this)
+    calculateBotsCollision()
+}
+
+private fun Game.calculateBotsCollision() {
+    bots = bots.filter {
+        (bots - it).none { bot ->
+            if(bot.position.equalsCell(it.position))
+                obstacles += it.position
+            bot.position.equalsCell(it.position)
+        }
+    }
 }
 
 fun Game.onInput(code: KeyEvent) {

@@ -1,19 +1,16 @@
 package com.example
 
-import kotlin.collections.iterator
 import kotlin.math.abs
 
 class AIEngine(
     private val arena: Arena,
 ) {
 
-    fun computeNextState(game: Game): Pair<List<Character>, List<Cell>> {
+    fun computeNextState(game: Game): List<Character> {
 
         val heroPos = game.hero.position
-        val bots = game.bots.toMutableList()
-        val obstacles = game.obstacles.toMutableList()
-
-        val finalPositions = mutableMapOf<Cell, MutableList<Character>>()
+        val bots = game.bots
+        val obstacles = game.obstacles
 
         for (bot in bots) {
 
@@ -24,33 +21,10 @@ class AIEngine(
                 bots.map { it.position }
             )
 
-            val newPos = when(direction) {
-                Direction.UP    -> Cell(bot.position.x,     bot.position.y - 1)
-                Direction.DOWN  -> Cell(bot.position.x,     bot.position.y + 1)
-                Direction.LEFT  -> Cell(bot.position.x - 1, bot.position.y)
-                Direction.RIGHT -> Cell(bot.position.x + 1, bot.position.y)
-                else -> bot.position
-            }
-
-            if (direction != null) bot.move(direction, obstacles)
-
-            finalPositions.getOrPut(newPos) { mutableListOf() }.add(bot)
+            if (direction != null) bot.move(direction, game.obstacles)
         }
 
-        val survivors = mutableListOf<Character>()
-        val newObstacles = mutableListOf<Cell>()
-
-        for ((cell, chars) in finalPositions) {
-            if (chars.size > 1) {
-                newObstacles += cell
-            } else {
-                survivors += chars[0]
-            }
-        }
-
-        obstacles += newObstacles
-
-        return survivors to obstacles
+        return bots
     }
 
     private fun computeNextStep(
