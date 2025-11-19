@@ -38,24 +38,22 @@ fun Hero.getAnimation(): String {
     return "hero|$pixelX,$pixelY,48,48"
 }
 
-fun Hero.canMove(newCell: Cell) : Boolean {
-    return newCell.row in 0 until GRID_HEIGHT && newCell.col in 0 until GRID_WIDTH
-}
-
 fun Hero.move(direction: Direction) {
-    val newPosition = when (direction) {
-        Direction.DOWN        -> Cell(position.col, position.row + 1)
-        Direction.LEFT        -> Cell(position.col - 1, position.row)
-        Direction.RIGHT       -> Cell(position.col + 1, position.row)
-        Direction.UP          -> Cell(position.col, position.row - 1)
+    val newPositionMatrix = when (direction) {
+        Direction.DOWN        -> 0 to 1
+        Direction.LEFT        -> -1 to 0
+        Direction.RIGHT       -> 1 to 0
+        Direction.UP          -> 0 to -1
 
-        Direction.DIAGONAL_DL -> Cell(position.col - 1, position.row + 1)
-        Direction.DIAGONAL_UL -> Cell(position.col + 1, position.row + 1)
-        Direction.DIAGONAL_UR -> Cell(position.col + 1, position.row - 1)
-        Direction.DIAGONAL_DR -> Cell(position.col - 1, position.row - 1)
+        Direction.DIAGONAL_DL -> -1 to 1
+        Direction.DIAGONAL_UL -> 1 to 1
+        Direction.DIAGONAL_UR -> 1 to -1
+        Direction.DIAGONAL_DR -> -1 to -1
     }
 
-    if (!canMove(newPosition)) return
+    val newPosition = Cell(position.col + newPositionMatrix.first, position.row + newPositionMatrix.second)
+
+    if (!newPosition.canMove()) return
 
     currentDirection = direction
     position = newPosition

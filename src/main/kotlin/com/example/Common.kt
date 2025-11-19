@@ -35,6 +35,9 @@ fun Cell.Companion.getCoordinate(cell: Cell) : Pair<Int, Int> {
     return Pair(cell.col * CELL_SIZE, cell.row * CELL_SIZE)
 }
 
+fun Cell.canMove() : Boolean {
+    return row in 0 until GRID_HEIGHT && col in 0 until GRID_WIDTH
+}
 
 enum class Direction {
     UP, DOWN, LEFT, RIGHT,
