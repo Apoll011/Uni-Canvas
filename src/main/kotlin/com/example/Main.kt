@@ -31,10 +31,6 @@ fun main() {
             game.animate()
         }
 
-        canvas.onTimeProgress(config.aiTiming) {
-            game.runEngine()
-        }
-
         canvas.onKeyPressed { code ->
             game.onInput(code)
         }

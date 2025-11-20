@@ -103,5 +103,6 @@ fun Game.onInput(code: KeyEvent) {
     val dir = getDir(code.char)
     if (dir != null) {
         hero.move(dir, getForbiddenCells())
+        runEngine()
     }
 }
