@@ -9,10 +9,11 @@ fun main() {
         val config = GameConfig(
             Character("hero", 48, 3, 100, 16 to 16),
             Character("robot", 64, 4, 128, -4 to -10),
+            listOf(Cell(0, 0), Cell(1, 0), Cell(7, 0), Cell(7, 4), Cell(0, 4), Cell(1, 4)),
             GRID_WIDTH,
             GRID_HEIGHT,
             CELL_SIZE,
-            false,
+            true,
             10,
             100,
             700,
