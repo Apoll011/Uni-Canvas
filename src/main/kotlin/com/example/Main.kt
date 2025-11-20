@@ -13,7 +13,7 @@ fun main() {
             GRID_WIDTH,
             GRID_HEIGHT,
             CELL_SIZE,
-            true,
+            false,
             10,
             100,
             700,

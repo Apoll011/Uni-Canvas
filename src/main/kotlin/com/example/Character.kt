@@ -9,26 +9,34 @@ class Character (val sourceImg : String, val frameSize: Int, val numberOfFrames:
     var currentFrame: Int = 0
     var currentDirection: Direction = Direction.DOWN
     var timeSinceLastMoved = 0
-    var nextPosition: Cell? = null
+
+    var drawX: Double = 0.0
+    var drawY: Double = 0.0
+    var drawInitialized: Boolean = false
 }
 
 fun Character.nextAnimation() {
-    currentFrame = if (timeSinceLastMoved < 6)(currentFrame + 1) % numberOfFrames else 1
+    currentFrame = if (timeSinceLastMoved < 4)(currentFrame + 1) % numberOfFrames else 1
     timeSinceLastMoved++
-    if (nextPositionIsChanged()) {
-        val distance = position.distance(nextPosition!!)
-        if (distance.first.toInt() != 0) {
-            position = Cell(position.x + 1, position.y)
-        }
-        if (distance.second.toInt() != 0) {
-            position = Cell(position.x, position.y + 1)
-        }
-    }
-}
 
-fun Character.nextPositionIsChanged(): Boolean {
-    if (nextPosition == null) return false
-    return !position.equalsCell(nextPosition!!)
+    val target = position.getCoordinate()
+    val targetX = (target.first + placementOffset.first).toDouble()
+    val targetY = (target.second + placementOffset.second).toDouble()
+
+    if (!drawInitialized) {
+        drawX = targetX
+        drawY = targetY
+        drawInitialized = true
+        return
+    }
+
+    val step = (CELL_SIZE / 4.0)
+
+    val dx = targetX - drawX
+    val dy = targetY - drawY
+
+    if (kotlin.math.abs(dx) <= step) drawX = targetX else drawX += kotlin.math.sign(dx) * step
+    if (kotlin.math.abs(dy) <= step) drawY = targetY else drawY += kotlin.math.sign(dy) * step
 }
 
 fun Character.getAnimation(): String {
@@ -75,8 +83,16 @@ fun Character.move(direction: Direction, forbidden: List<Cell>) {
 }
 
 fun Character.draw(canvas: Canvas) {
-    val pos = position.getCoordinate()
-    canvas.drawImage(getAnimation(), pos.first + placementOffset.first, pos.second + placementOffset.second, size, size)
+    if (!drawInitialized) {
+        val target = position.getCoordinate()
+        drawX = (target.first + placementOffset.first).toDouble()
+        drawY = (target.second + placementOffset.second).toDouble()
+        drawInitialized = true
+    }
+
+    val x = drawX.toInt()
+    val y = drawY.toInt()
+    canvas.drawImage(getAnimation(), x, y, size, size)
 }
 
 fun Character.copy(): Character {
