@@ -43,8 +43,9 @@ class AIEngine(
                     y in 0 until arena.gridsY &&
                     Cell(x, y) !in blocked
 
-        val dx = goal.x - start.x
-        val dy = goal.y - start.y
+        val d = goal.distance(start)
+        val dx = d.first
+        val dy = d.second
 
         val preferred: MutableList<Direction> = mutableListOf()
 

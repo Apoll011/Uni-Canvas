@@ -53,9 +53,16 @@ fun Cell.nextCell(d: Direction): Cell {
     }
 }
 
-fun Cell.distance(b: Cell): Int {
+fun Cell.distance(b: Cell): Pair<Int, Int> {
     val dx = x - b.x
     val dy = y - b.y
+    return dx to dy
+}
+
+fun Cell.pythagoreanDistance(b: Cell): Int {
+    val d = this.distance(b)
+    val dx = d.first
+    val dy = d.second
     return kotlin.math.sqrt((dx*dx + dy*dy).toDouble()).toInt()
 }
 

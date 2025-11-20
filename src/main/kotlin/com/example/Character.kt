@@ -9,11 +9,26 @@ class Character (val sourceImg : String, val frameSize: Int, val numberOfFrames:
     var currentFrame: Int = 0
     var currentDirection: Direction = Direction.DOWN
     var timeSinceLastMoved = 0
+    var nextPosition: Cell? = null
 }
 
 fun Character.nextAnimation() {
     currentFrame = if (timeSinceLastMoved < 6)(currentFrame + 1) % numberOfFrames else 1
     timeSinceLastMoved++
+    if (nextPositionIsChanged()) {
+        val distance = position.distance(nextPosition!!)
+        if (distance.first.toInt() != 0) {
+            position = Cell(position.x + 1, position.y)
+        }
+        if (distance.second.toInt() != 0) {
+            position = Cell(position.x, position.y + 1)
+        }
+    }
+}
+
+fun Character.nextPositionIsChanged(): Boolean {
+    if (nextPosition == null) return false
+    return !position.equalsCell(nextPosition!!)
 }
 
 fun Character.getAnimation(): String {

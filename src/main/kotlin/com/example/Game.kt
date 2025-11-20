@@ -43,7 +43,7 @@ fun Game.getRandomAvailableCell(): Cell {
 
         if (!cell.canMove(forbidden)) continue
 
-        val tooCloseToBot = bots.any { cell.distance(it.position) < 2 }
+        val tooCloseToBot = bots.any { cell.pythagoreanDistance(it.position) < 2 }
         if (tooCloseToBot) continue
 
         break
