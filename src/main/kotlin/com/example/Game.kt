@@ -2,14 +2,18 @@ package com.example
 
 import pt.isel.canvas.*
 
-data class GameConfig(val hero: Character, val bot: Character, val hiddenWalls: List<Cell>, val cellOnX: Int, val cellOnY: Int, val cellSize: Int, val drawGrid: Boolean, val drawTiming: Int, val animateTiming: Int, val aiTiming: Int, val garbageImage: String, val background: String)
+enum class GameState {
+    RUNNING, LOST, WON
+}
+
+data class GameConfig(var state: GameState, val hero: Character, val bot: Character, val hiddenWalls: List<Cell>, val cellOnX: Int, val cellOnY: Int, val cellSize: Int, val drawGrid: Boolean, val drawTiming: Int, val animateTiming: Int, val aiTiming: Int, val garbageImage: String, val background: String)
 
 class Game (val config: GameConfig) {
     val arena: Arena = Arena(config.cellOnX, config.cellOnY, config.cellSize)
     val hero: Character = config.hero
     var bots: List<Character> = listOf()
     var aiEngine: AIEngine = AIEngine(arena)
-    var enemiesNumber: Int = (3..arena.gridsX).random()
+    var enemiesNumber: Int = (3..5).random()
     var obstacles: List<Cell> = listOf()
 
     init {
@@ -73,6 +77,13 @@ fun Game.draw(canvas: Canvas) {
     for (trash in obstacles) {
         drawTrash(canvas, trash)
     }
+
+    if (config.state == GameState.LOST) {
+        canvas.drawText(config.cellOnX * config.cellSize / 2, config.cellOnY * config.cellSize / 2, "YOU LOST", WHITE)
+    }
+    else if (config.state == GameState.WON) {
+        canvas.drawText(config.cellOnX * config.cellSize / 2, config.cellOnY * config.cellSize / 2, "YOU WON", WHITE)
+    }
 }
 
 fun Game.animate() {
@@ -87,6 +98,16 @@ fun Game.runEngine() {
     calculateBotsCollision()
 }
 
+fun Game.checkDead() {
+    for (bot in bots) {
+        if  (bot.position.equalsCell(hero.position)) {
+            config.state = GameState.LOST
+        }
+    }
+    if(bots.isEmpty()) {
+        config.state = GameState.WON
+    }
+}
 
 //Uhhhhhhhhh Please don´t Ask.... THIS SHOULD NEVER BE TOUCHED
 private fun Game.calculateBotsCollision() {
@@ -104,5 +125,6 @@ fun Game.onInput(code: KeyEvent) {
     if (dir != null) {
         hero.move(dir, getForbiddenCells())
         runEngine()
+        checkDead()
     }
 }

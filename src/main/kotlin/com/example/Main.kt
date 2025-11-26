@@ -7,6 +7,7 @@ fun main() {
         val canvas = Canvas(GRID_WIDTH * CELL_SIZE, GRID_HEIGHT * CELL_SIZE, WHITE)
 
         val config = GameConfig(
+            GameState.RUNNING,
             Character("hero", 48, 3, 100, 16 to 16),
             Character("robot", 64, 4, 128, -4 to -10),
             listOf(Cell(0, 0), Cell(1, 0), Cell(7, 0), Cell(7, 4), Cell(0, 4), Cell(1, 4)),
@@ -32,7 +33,8 @@ fun main() {
         }
 
         canvas.onKeyPressed { code ->
-            game.onInput(code)
+            if (game.config.state == GameState.RUNNING)
+                game.onInput(code)
         }
     }
     onFinish {  }
